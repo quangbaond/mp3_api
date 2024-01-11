@@ -19,6 +19,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'email',
         'password',
         'user_name',
@@ -28,6 +29,7 @@ class User extends Authenticatable implements JWTSubject
         'sum_comment',
         'sum_list_music',
         'sum_upload',
+        'balance',
     ];
 
     /**
@@ -71,6 +73,11 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    public function withDraws(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(WithDraw::class);
     }
 
 }

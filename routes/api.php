@@ -22,3 +22,11 @@ Route::prefix('auth')->group(function () {
 Route::get('/profile', function () {
     return response()->json(['user' => auth()->user()], 200);
 })->middleware('auth:api');
+
+Route::get('withdraws', [\App\Http\Controllers\WithDrawController::class, 'index'])->middleware('auth:api');
+
+Route::post('withdraws', [\App\Http\Controllers\WithDrawController::class, 'store'])->middleware('auth:api');
+
+Route::post('vote', [\App\Http\Controllers\WithDrawController::class, 'vote'])->middleware('auth:api');
+
+Route::post('users', [\App\Http\Controllers\UserController::class, 'store'])->middleware('auth:api');
