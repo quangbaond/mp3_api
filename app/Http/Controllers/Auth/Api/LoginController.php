@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Services\Traits\AuthenticatesUsers;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -16,7 +17,7 @@ class LoginController extends Controller
      *
      * @throws ValidationException
      */
-    public function login(LoginRequest $request): UserResource | ValidationException
+    public function login(Request $request): UserResource | ValidationException
     {
         $request->validate([
             'user_name' => 'required|string',
