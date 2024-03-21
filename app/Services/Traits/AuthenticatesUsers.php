@@ -54,7 +54,7 @@ trait AuthenticatesUsers
      */
     protected function credentials(Request $request): array
     {
-        return $request->only('email', 'password');
+        return $request->only('user_name', 'password');
     }
 
     /**
@@ -66,7 +66,7 @@ trait AuthenticatesUsers
      */
     protected function throttleKey(Request $request): string
     {
-        return Str::lower($request->input('email|' . $request->ip()));
+        return Str::lower($request->input('user_name|' . $request->ip()));
     }
 
     /**
@@ -109,5 +109,10 @@ trait AuthenticatesUsers
     protected function guard()
     {
         return Auth::guard('api');
+    }
+
+    public function username()
+    {
+        return 'user_name';
     }
 }
