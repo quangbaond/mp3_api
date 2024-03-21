@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Auth\Api;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\UserResource;
@@ -19,11 +18,18 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request): UserResource | ValidationException
     {
-        $token = $this->attemptLogin($this->credentials($request), false, true);
+        $request->validate([
+            'user_name' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        $credentials = $request->only('user_name', 'password');
+
+        $token = Auth::attempt($credentials);
         if (!$token) {
-            throw ValidationException::withMessages([
-                'user_name' => [trans('auth.failed')],
-            ]);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+            ], 401);
         }
 
         return $this->respondWithToken($token);
