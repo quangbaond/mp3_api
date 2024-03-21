@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth\Api;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\UserResource;
@@ -21,7 +22,7 @@ class LoginController extends Controller
         $token = $this->attemptLogin($this->credentials($request), false, true);
         if (!$token) {
             throw ValidationException::withMessages([
-                'email' => [trans('auth.failed')],
+                'user_name' => [trans('auth.failed')],
             ]);
         }
 
