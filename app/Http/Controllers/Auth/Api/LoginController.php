@@ -19,21 +19,29 @@ class LoginController extends Controller
      */
     public function login(Request $request): UserResource | ValidationException
     {
-        $request->validate([
-            'user_name' => 'required|string',
-            'password' => 'required|string',
-        ]);
-        $credentials = $request->only('user_name', 'password');
-
-        $token = Auth::attempt($credentials);
+        $token = $this->attemptLogin($this->credentials($request), false, true);
         if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
+            throw ValidationException::withMessages([
+                'email' => [trans('auth.failed')],
+            ]);
         }
 
         return $this->respondWithToken($token);
+        // $request->validate([
+        //     'user_name' => 'required|string',
+        //     'password' => 'required|string',
+        // ]);
+        // $credentials = $request->only('user_name', 'password');
+
+        // $token = Auth::attempt($credentials);
+        // if (!$token) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'Unauthorized',
+        //     ], 401);
+        // }
+
+        // return $this->respondWithToken($token);
     }
 
     /**
